@@ -6,6 +6,7 @@ import com.somp.user_service.entity.User;
 import com.somp.user_service.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +35,10 @@ public class UserController {
         return service.getAll().stream().map(user ->
             new UserResponse(user.getId(),user.getName(),user.getEmail())
         ).collect(Collectors.toList());
+    }
+
+    @GetMapping("/secure")
+    public String secureEndPoint(Authentication auth){
+        return "Hello" + auth.getName();
     }
 }
