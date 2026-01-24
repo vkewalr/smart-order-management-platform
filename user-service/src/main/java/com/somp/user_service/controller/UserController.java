@@ -6,6 +6,7 @@ import com.somp.user_service.entity.User;
 import com.somp.user_service.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,17 @@ public class UserController {
     @GetMapping("/secure")
     public String secureEndPoint(Authentication auth){
         return "Hello" + auth.getName();
+    }
+
+    @GetMapping("/profile")
+    @PreAuthorize("hasRole('USER')")
+    public String userProfile(Authentication auth){
+        return "User profile for "+ auth.getName();
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String adminAccess(Authentication auth){
+        return "Admin Access only";
     }
 }
